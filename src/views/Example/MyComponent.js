@@ -1,39 +1,49 @@
 import React from 'react';
+import AddComponent from './AddComponent';
+import ChildComponent from './ChildComponent';
 
 class MyComponent extends React.Component {
 
     state = {
-        name: '',
-        age: 21
+
+        arrJob: [{ id: 'j1', job: 'Front end', salary: 500 },
+        { id: 'j2', job: 'Back end', salary: 300 },
+        { id: 'j3', job: 'Data engineer', salary: 1000 }
+        ]
     }
 
-    handleOnChangeName = (event) => {
-        console.log(event.target, 'event target value', event.target.value);
+    addNewJob = (job) => {
+        console.log(job);
         this.setState({
-            name: event.target.value
+            // arrJob: this.state.arrJob.push(job)
+            arrJob: [...this.state.arrJob, job]
         })
     }
-    handleClickButton = () => {
-        alert('Chúc may mắn');
+
+    deleteAJob = (job) => {
+        let currentJob = this.state.arrJob;
+        currentJob = currentJob.filter(
+            item => item.id !== job.id
+        )
+        this.setState({
+            arrJob: currentJob
+        })
+        // let newArr = this.state.arrJob.filter((job) =>{
+        //     return job
+        // })
     }
 
     render() {
-        let name = 'Hùynh Thanh Phong';
-        console.log(this.state);
         return (
             //fragment vì nó chỉ trả ra 1 khối nên phải bọc lại
             <>
-                <div>
-                    <input value={this.state.name} type="text" onChange={(event) => this.handleOnChangeName(event)}></input>
-                </div>
-                <div>Tôi là {name} </div>
-                <div >Biệt danh: {this.state.name}</div>
-                <div>Tuổi: {this.state.age}</div>
-                <div>
-                    <button onClick={() => this.handleClickButton()}> {/* Gọi hàm  */}
-                        Click me
-                    </button>
-                </div>
+                <AddComponent
+                    addNewJob={this.addNewJob}
+
+                ></AddComponent>
+
+                <ChildComponent arr={this.state.arrJob} deleteAJob={this.deleteAJob} />
+
             </>
         )
     }
