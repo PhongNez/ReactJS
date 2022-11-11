@@ -25,11 +25,10 @@ class Home extends React.Component {
         return (
             <>
                 <div>
-                    <span>
+                    <p>
                         Hello world (Phong Nè)
-                    </span>
-                    <p>Hello world from Home</p>
-                    <img src={logo} style={{ width: '400px', height: '400px', marginTop: '50px' }}></img>
+                    </p>
+                    <img src={logo} style={{ width: '400px', height: '400px', marginTop: '10px' }}></img>
                 </div>
                 <div>
                     {
