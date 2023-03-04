@@ -6,6 +6,25 @@ import { toast } from 'react-toastify'
 
 class ListToDo extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            password: '',
+            user: ''
+
+        }
+
+    }
+    componentDidMount() {
+        let data = localStorage.getItem('user')
+        console.log(data);
+        { data && console.log('PHong'); }
+        this.setState({
+            user: data
+        })
+    }
+
     state = {
         list: [{ id: 'todo1', title: 'Play video games' },
         { id: 'todo2', title: 'Study' },
@@ -54,16 +73,21 @@ class ListToDo extends React.Component {
         })
     }
     render() {
-        let { list } = this.state;
+        let { list, user } = this.state;
+        console.log('Tét :', user, 'gà');
         return (
-            <div className="list-todo-container">
-                <AddTodo
-                    addNewTodo={this.addNewTodo}
-                />
-                <ListTodoContent list={this.state.list} deleteTodo={this.deleteTodo} editTodo={this.editTodo} edit={this.state.edit}
-                    editChange={this.editChange} listTodo={this.listTodo}
-                />
-            </div>
+            <>
+                {user ? <> <div className="list-todo-container">
+                    {/* <AddTodo
+                        addNewTodo={this.addNewTodo}
+                    />
+                    <ListTodoContent list={this.state.list} deleteTodo={this.deleteTodo} editTodo={this.editTodo} edit={this.state.edit}
+                        editChange={this.editChange} listTodo={this.listTodo}
+                    /> */}
+                    Phong gà
+                </div></> : <div>Bạn không có quyền truy cập</div>}
+
+            </>
         )
     }
 }

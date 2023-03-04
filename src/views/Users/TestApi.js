@@ -2,8 +2,9 @@ import React from "react";
 import axios from "axios";
 class TestApi extends React.Component {
     state = {
-        product: []
+        product: [], hello: 'phong ne'
     }
+
     async componentDidMount() {
         let res = await axios.get('http://localhost:8081/api/v1/product');
         console.log(res);
@@ -15,7 +16,10 @@ class TestApi extends React.Component {
         let { product } = this.state
         console.log(product);
         return (<>
+            <div> {this.state.hello}
+            </div>
             {
+
                 product.map(
                     (item, index) => {
                         return (<>
@@ -25,6 +29,7 @@ class TestApi extends React.Component {
                             </div>
                             <div> Giá: {item.price}
                             </div>
+
                         </>)
                     }
                 )

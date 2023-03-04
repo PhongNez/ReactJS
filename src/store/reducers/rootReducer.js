@@ -7,6 +7,7 @@ const initState = {
 }
 
 const rootReducer = (state = initState, action) => {
+    console.log('Tét thu action: ', action);
     switch (action.type) {
         case 'DELETE_USER':
             let users = state.users;

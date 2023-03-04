@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import ListUser from './Users/ListUser';
 import TestApi from './Users/TestApi';
+import Login from './Login/Login';
 
 function App() {
   return (
@@ -43,6 +44,9 @@ function App() {
             </Route>
             <Route path="/test">
               <TestApi />
+            </Route>
+            <Route path="/login">
+              <Login />
             </Route>
           </Switch>
         </header >
