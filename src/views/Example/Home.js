@@ -4,6 +4,9 @@ import logo from '../../assets/images/dog.png'
 import { connect } from 'react-redux'
 import global from '../../global/global'
 import Login from "../Login/Login";
+import { Link } from "react-router-dom";
+// import DangNhap from "./DangNhap";
+
 class Home extends React.Component {
 
     constructor(props) {
@@ -13,17 +16,28 @@ class Home extends React.Component {
             password: '',
             isShowHidePassword: false,
             errMessage: '',
-            user: ''
+            user: '',
+            dangnhap: false
 
         }
-        global.isLoggedIn = (user) => this.onSignIn(user)
+        // global.isLoggedIn = (user) => this.onSignIn(user)
     }
 
     componentDidMount() {
-        let data = localStorage.getItem('user')
-        this.setState({
-            user: data
-        })
+        // let data = localStorage.getItem('dangnhap')
+        // this.setState({
+        //     dangnhap: data
+        // })
+        console.log('isDangNhap', this.props.reduxState.isDangNhap);
+        if (this.props.reduxState.isDangNhap) {
+            console.log('ComponentDidmout Home');
+        }
+        else {
+            this.props.history.push('dangnhap')
+            console.log('History:', this.props.history);
+        }
+
+
     }
 
     onSignIn = (user) => {
@@ -40,20 +54,28 @@ class Home extends React.Component {
         this.props.createRedux()
     }
     logout = () => {
-        localStorage.removeItem('user')
+        // localStorage.removeItem('user')
+        // this.setState({
+        //     user: null
+        // })
+
         this.setState({
-            user: null
+            dangnhap: false
         })
+        this.props.logoutRedux()
+        this.props.history.push('dangnhap')
     }
 
     render() {
         const login = <Login />
         console.log('>>Check props: ', this.props);
         let listUser = this.props.phongTP
+        console.log('List user: ', listUser);
         const { user } = this.state
         return (
             <>
-                {user ? <>
+                {/* {this.state.dangnhap ? */}
+                <div style={{ textAlign: "center" }}>
                     <div>
                         <p>
                             Hello world (Phong Nè)
@@ -70,9 +92,12 @@ class Home extends React.Component {
 
                             })
                         }
-                        <button onClick={() => this.handleCreate()}>Add user</button>
-                        <button onClick={() => this.logout()}>Đăng xuất</button>
-                    </div></> : login}
+                        <button style={{ marginRight: 10 }} onClick={() => this.handleCreate()}>Add user</button>
+                        <button onClick={() => this.logout()}>Đăng xuất</button></div>
+                </div>
+                {/* : <Redirect to='dangnhap1' /> } */}
+
+
             </>
         )
     }
@@ -81,13 +106,14 @@ class Home extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         deleteRedux: (userDelete) => dispatch({ type: 'DELETE_USER', payload: userDelete }),
-        createRedux: () => dispatch({ type: 'ADD_USER' })
+        // createRedux: () => dispatch({ type: 'ADD_USER' })
+        logoutRedux: () => dispatch({ type: 'dangXuat' })
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        phongTP: state.users
+        reduxState: state
     }
 }
 

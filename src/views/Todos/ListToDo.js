@@ -3,6 +3,7 @@ import './ListTodo.scss'
 import AddTodo from './AddTodo';
 import ListTodoContent from './ListTodoContent'
 import { toast } from 'react-toastify'
+import { connect } from 'react-redux';
 
 class ListToDo extends React.Component {
 
@@ -74,22 +75,32 @@ class ListToDo extends React.Component {
     }
     render() {
         let { list, user } = this.state;
+        console.log('List to do:', this.props.reduxState);
+        let isLoggedIn = this.props.reduxState
         console.log('Tét :', user, 'gà');
         return (
             <>
-                {user ? <> <div className="list-todo-container">
+                {isLoggedIn ? <> <div className="list-todo-container">
                     {/* <AddTodo
                         addNewTodo={this.addNewTodo}
                     />
                     <ListTodoContent list={this.state.list} deleteTodo={this.deleteTodo} editTodo={this.editTodo} edit={this.state.edit}
                         editChange={this.editChange} listTodo={this.listTodo}
                     /> */}
-                    Phong gà
+                    Đã đăng nhập thanh cong
                 </div></> : <div>Bạn không có quyền truy cập</div>}
 
             </>
         )
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        reduxState: state.isDangNhap
+    }
+}
 
-export default ListToDo 
+const mapDispatchToProps = () => {
+
+}
+export default connect(mapStateToProps)(ListToDo)

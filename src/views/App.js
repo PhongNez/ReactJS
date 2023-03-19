@@ -17,6 +17,10 @@ import {
 import ListUser from './Users/ListUser';
 import TestApi from './Users/TestApi';
 import Login from './Login/Login';
+import DangNhap from './Example/DangNhap';
+import Category from './Category/Category';
+import Product from './Product/Product';
+import DetailProduct from './DetailProduct/DetailProduct';
 
 function App() {
   return (
@@ -27,7 +31,7 @@ function App() {
           <Nav />
           <img src={logo} className="App-logo" alt="logo" />
           <Switch>
-            <Route path="/" exact>
+            <Route path="/home">
               <Home />
             </Route>
             <Route path="/list-todo">
@@ -47,6 +51,18 @@ function App() {
             </Route>
             <Route path="/login">
               <Login />
+            </Route>
+            <Route path="/dangnhap">
+              <DangNhap />
+            </Route>
+            <Route path="/category">
+              <Category />
+            </Route>
+            <Route path="/detailProduct">
+              <Product />
+            </Route>
+            <Route path="/chiTiet">
+              <DetailProduct />
             </Route>
           </Switch>
         </header >

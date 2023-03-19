@@ -1,0 +1,14 @@
+.main-container {
+
+    overflow: hidden;
+    padding: 10px;
+
+    .container {
+        background-color: blue;
+        border: 1px solid green;
+        width: 200px;
+        height: 100px;
+        float: left;
+        margin-right: 10px;
+    }
+}
