@@ -21,6 +21,7 @@ import DangNhap from './Example/DangNhap';
 import Category from './Category/Category';
 import Product from './Product/Product';
 import DetailProduct from './DetailProduct/DetailProduct';
+import Modal from './Modal/ModalCategory';
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
 
         <header className="App-header">
           <Nav />
-          <img src={logo} className="App-logo" alt="logo" />
+          {/* <img src={logo} className="App-logo" alt="logo" /> */}
           <Switch>
             <Route path="/home">
               <Home />
@@ -63,6 +64,9 @@ function App() {
             </Route>
             <Route path="/chiTiet">
               <DetailProduct />
+            </Route>
+            <Route path="/modal">
+              <Modal />
             </Route>
           </Switch>
         </header >
