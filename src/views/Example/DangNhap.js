@@ -23,7 +23,7 @@ class DangNhap extends React.Component {
             console.log('ComponentDidmout DangNhap');
         }
         else {
-            this.props.history.push('home')
+            this.props.history.push('')
         }
 
     }
@@ -46,7 +46,7 @@ class DangNhap extends React.Component {
         this.setState({
             checkLogin: true
         })
-        history.push('home')
+        history.push('')
         this.props.dangNhap()
 
     }

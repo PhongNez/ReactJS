@@ -3,18 +3,16 @@ import { connect } from 'react-redux';
 import axios from 'axios'
 import './Category.scss'
 import { withRouter } from 'react-router-dom';
-import ModalCategory from '../Modal/ModalCategory';
+import ModalCategory from './ModalCategory/ModalCategory';
 import { FaTrash, FaPencilAlt } from 'react-icons/fa'
-import ModalEditCategory from '../Modal/ModalEditCategory';
-import ModalDeleteCategory from '../Modal/ModalDeleteCategory';
+import ModalEditCategory from './ModalCategory/ModalEditCategory';
+import ModalDeleteCategory from './ModalCategory/ModalDeleteCategory';
 class Category extends Component {
     constructor(props) {
         super(props);
         this.state = {
             name: '',
             logo: '',
-            isShowHidePassword: false,
-            errMessage: '',
             listCategory: [],
             id_category: '',
             arrProduct: [],

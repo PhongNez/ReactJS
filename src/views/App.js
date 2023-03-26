@@ -21,7 +21,9 @@ import DangNhap from './Example/DangNhap';
 import Category from './Category/Category';
 import Product from './Product/Product';
 import DetailProduct from './DetailProduct/DetailProduct';
-import Modal from './Modal/ModalCategory';
+import Order from './Order/Order';
+import OrderDetail from './OrderDetail/OrderDetail';
+import Account from './Account/Account';
 
 function App() {
   return (
@@ -32,9 +34,10 @@ function App() {
           <Nav />
           {/* <img src={logo} className="App-logo" alt="logo" /> */}
           <Switch>
-            <Route path="/home">
+            <Route path="/" exact>
               <Home />
             </Route>
+
             <Route path="/list-todo">
               <ListToDo />
             </Route>
@@ -59,14 +62,20 @@ function App() {
             <Route path="/category">
               <Category />
             </Route>
-            <Route path="/detailProduct">
+            <Route path="/product">
               <Product />
+            </Route>
+            <Route path="/orders">
+              <Order />
             </Route>
             <Route path="/chiTiet">
               <DetailProduct />
             </Route>
-            <Route path="/modal">
-              <Modal />
+            <Route path="/orderdetail">
+              <OrderDetail />
+            </Route>
+            <Route path="/account">
+              <Account />
             </Route>
           </Switch>
         </header >

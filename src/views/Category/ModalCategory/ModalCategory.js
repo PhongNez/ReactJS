@@ -33,18 +33,26 @@ class ModalCategory extends Component {
     }
 
     fileSelectedHandle = (event) => {
-        this.setState({
-            avatar: {
-                ...this.state.avatar.selectedFile,
-                selectedFile: event.target.files[0]
-            }
-        })
+        if (event && event.target && event.target.files[0]) {
+            this.setState({
+                avatar: {
+                    ...this.state.avatar.selectedFile,
+                    selectedFile: event.target.files[0]
+                }
+            })
 
-        const file = event.target.files[0]
-        file.preview = URL.createObjectURL(file)
-        this.setState({
-            img: file.preview
-        })
+            const file = event.target.files[0]
+            file.preview = URL.createObjectURL(file)
+            this.setState({
+                img: file.preview
+            })
+        }
+        else {
+            this.setState({
+                img: ''
+            })
+        }
+
     }
     checkValidateInput = () => {
         let isValid = true;
@@ -102,11 +110,12 @@ class ModalCategory extends Component {
                         <div className='modal-category-body'>
                             <div className='input-container'>
                                 <label>Nhập tên danh mục:</label>
-                                <input type='text' onChange={(event) => this.handleOnChangeName(event)}></input>
+                                <input type='text' onChange={(event) => this.handleOnChangeName(event)} value={this.state.name}></input>
                             </div>
                             <div className='input-container'>
                                 <label>Chọn ảnh danh mục:</label>
                                 <input type='file' onChange={(event) => this.fileSelectedHandle(event)}></input>
+                                {this.state.img && <img src={this.state.img} height={100} width={100}></img>}
                             </div>
                         </div>
                     </ModalBody>

@@ -6,7 +6,8 @@ const initState = {
     ],
     isDangNhap: localStorage.getItem('dangnhap'),
     id_category: 'ALL',
-    id_product: 'ALL'
+    id_product: 'ALL',
+    id_order: '',
 }
 
 const rootReducer = (state = initState, action) => {
@@ -30,7 +31,7 @@ const rootReducer = (state = initState, action) => {
                 ...state,
                 isDangNhap: true
             }
-
+            break;
         case 'dangXuat':
             // localStorage.setItem('dangnhap', false)
             localStorage.removeItem('dangnhap')
@@ -38,20 +39,26 @@ const rootReducer = (state = initState, action) => {
                 ...state,
                 isDangNhap: false
             }
-
+            break;
         case 'id_category':
             console.log('Id category:', action.payload);
             return {
                 ...state,
                 id_category: action.payload
             }
-
+            break;
         case 'id_product':
             return {
                 ...state,
                 id_product: action.payload
             }
-
+            break;
+        case 'id_order':
+            return {
+                ...state,
+                id_order: action.payload
+            }
+            break;
         default:
             return state;
     }

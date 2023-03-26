@@ -33,61 +33,6 @@ class ModalDeleteCategory extends Component {
         })
     }
 
-    fileSelectedHandle = (event) => {
-        this.setState({
-            avatar: {
-                ...this.state.avatar.selectedFile,
-                selectedFile: event.target.files[0]
-            }
-        })
-
-        const file = event.target.files[0]
-        file.preview = URL.createObjectURL(file)
-        this.setState({
-            img: file.preview
-        })
-    }
-    checkValidateInput = () => {
-        let isValid = true;
-        let arrInput = ['name', 'img'];
-        for (let i = 0; i < arrInput.length; i++) {
-            if (!this.state[arrInput[i]]) {
-                isValid = false;
-                alert('Vui lòng nhập: ' + arrInput[i])
-                break;
-            }
-        }
-        return isValid;
-    }
-
-    handleAddNewCategory = async () => {
-        let check = this.checkValidateInput();
-        if (check) {
-            const { name } = this.state
-            const { selectedFile } = this.state.avatar
-
-            const fd = new FormData()
-            fd.append('name', name)
-            fd.append('logo', selectedFile, selectedFile.name)
-            console.log(fd);
-
-
-            let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9hY2NvdW50IjoxLCJlbWFpbCI6ImFkbWluLmZvb2RvcmRlckBnbWFpbC5jb20iLCJwaG9uZSI6IjAzMjEiLCJuYW1lIjoiS2ltIMSQ4bqhaSBQaG9uZyIsImNyZWF0ZWRfdGltZSI6IjIwMjItMDktMjFUMDU6MTI6MjYuMDAwWiIsImFkZHJlc3MiOiI1MiIsImF2YXRhciI6IicnIiwic3RhdHVzIjowLCJyb2xlIjoxLCJpYXQiOjE2NzkzMTk4NDl9.S86CSsJnpLrkfCJtmIZ87aYOjPVSVUfNwIUj5Di8YQ8'
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            let response = await axios.post('http://localhost:8081/api/v1/admin/createcategory', fd)
-            this.setState({
-                name: '',
-                img: '',
-                avatar: {
-                    selectedFile: null,
-                }
-            })
-            this.props.toggleCuaCha()
-            alert(response.data.message)
-
-            console.log(response);
-        }
-    }
 
     handleDeleteCategory = async (id_category) => {
         let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9hY2NvdW50IjoxLCJlbWFpbCI6ImFkbWluLmZvb2RvcmRlckBnbWFpbC5jb20iLCJwaG9uZSI6IjAzMjEiLCJuYW1lIjoiS2ltIMSQ4bqhaSBQaG9uZyIsImNyZWF0ZWRfdGltZSI6IjIwMjItMDktMjFUMDU6MTI6MjYuMDAwWiIsImFkZHJlc3MiOiI1MiIsImF2YXRhciI6IicnIiwic3RhdHVzIjowLCJyb2xlIjoxLCJpYXQiOjE2NzkzMTk4NDl9.S86CSsJnpLrkfCJtmIZ87aYOjPVSVUfNwIUj5Di8YQ8'

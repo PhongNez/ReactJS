@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import { withRouter } from 'react-router-dom';
-
+import { FaTrash, FaPencilAlt } from 'react-icons/fa'
+import ModalProduct from './ModalProduct/ModalProduct';
+import ModalEditProduct from './ModalProduct/ModalEditProduct';
+import ModalDeleteProduct from './ModalProduct/ModalDeleteProduct';
 class Product extends Component {
     constructor(props) {
         super(props);
@@ -14,11 +17,19 @@ class Product extends Component {
             listProduct: [],
             id_category: '',
             arrProduct: [],
+            isOpen: false,
+            isOpenEdit: false,
+            isOpenDelete: false,
+            productEdit: []
         }
     }
 
     async componentDidMount() {
-        let response = await axios.get(`http://localhost:8081/api/v1/detailProduct?id=${this.props.reduxState.id_category}`)
+        this.getAllProductFromReact()
+    }
+
+    getAllProductFromReact = async () => {
+        let response = await axios.get(`http://localhost:8081/api/v1//admin/product?id=${this.props.reduxState.id_category}`)
         console.log(response.data);
         console.log('hello chi tiet nè');
         this.setState({
@@ -26,6 +37,34 @@ class Product extends Component {
         })
     }
 
+    toggle = () => {
+        this.setState({
+            isOpen: !this.state.isOpen
+        })
+    }
+
+    toggleEditProduct = () => {
+        this.setState({
+            isOpenEdit: !this.state.isOpenEdit
+        })
+    }
+    toggleDeleteProduct = () => {
+        this.setState({
+            isOpenDelete: !this.state.isOpenDelete
+        })
+    }
+    handleEditProduct = (product) => {
+        this.setState({
+            isOpenEdit: true,
+            productEdit: product
+        })
+    }
+    handleDeleteProduct = (product) => {
+        this.setState({
+            isOpenDelete: true,
+            productDelete: product
+        })
+    }
     sanPhamChiTiet = (id_product) => {
         console.log('San pham theo danh muc: ', id_product);
         this.props.product(id_product)
@@ -38,19 +77,62 @@ class Product extends Component {
         console.log('redux id_category: ', this.props.reduxState);
         return (
             <div className='main-container'>
+                <ModalProduct
+                    isOpen={this.state.isOpen}
+                    toggleCuaCha={() => this.toggle()}
+                    getAllProductFromReact={() => this.getAllProductFromReact()}
+                />
                 {
-                    listProduct && listProduct.map((item, index) => {
-                        return (
-                            <div className='container' onClick={() => this.sanPhamChiTiet(item.id_product)}>
+                    this.state.isOpenEdit && <ModalEditProduct
+                        isOpenEdit={this.state.isOpenEdit}
+                        toggleEditProduct={() => this.toggleEditProduct()}
+                        productEdit={this.state.productEdit}
+                        getAllProductFromReact={() => this.getAllProductFromReact()}
+                    />}
+                {
+                    this.state.isOpenDelete && <ModalDeleteProduct
+                        isOpenDelete={this.state.isOpenDelete}
+                        toggleDeleteProduct={() => this.toggleDeleteProduct()}
+                        productDelete={this.state.productDelete}
+                        getAllProductFromReact={() => this.getAllProductFromReact()}
+                    />}
+                <div className='d-flex justify-content-center quanlidanhmuc'>Danh sách sản phẩm </div>
+                <button className='btn btn-primary btn-them-danh-muc' onClick={() => this.toggle()}><span className='them-danh-muc'>+ Thêm sản phẩm</span></button>
+                <div className='table-user'>
+                    <table id="customers">
+                        <tbody>
+                            <tr>
+                                <th>STT</th>
+                                <th>Ảnh sản phẩm</th>
+                                <th>Tên sản phẩm</th>
+                                <th>Giá</th>
+                                <th>Danh mục</th>
+                                <th>Hành động</th>
 
-                                <p>{item.name}</p>
-                                <p>{item.price} </p>
-                                <p> {item.detail}</p>
+                            </tr>
+                            {
 
-                            </div>
-                        )
-                    })
-                }
+                                listProduct && listProduct.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td><img src={`http://localhost:8081/image/${item.images}`} alt="" height={150} width={150} /></td>
+
+                                            <td>{item.name_product}</td>
+                                            <td>{item.price}</td>
+                                            <td>{item.name}</td>
+                                            <td>
+                                                <button className='btn-edit' onClick={() => this.handleEditProduct(item)}><FaPencilAlt /></button>
+                                                <button className='btn-delete' onClick={() => this.handleDeleteProduct(item)}><FaTrash /></button>
+                                            </td>
+
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         )
     }

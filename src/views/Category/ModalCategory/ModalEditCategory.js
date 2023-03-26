@@ -42,18 +42,25 @@ class ModalEditCategory extends Component {
     }
 
     fileSelectedHandle = (event) => {
-        this.setState({
-            avatar: {
-                ...this.state.avatar.selectedFile,
-                selectedFile: event.target.files[0]
-            }
-        })
+        if (event && event.target && event.target.files[0]) {
+            this.setState({
+                avatar: {
+                    ...this.state.avatar.selectedFile,
+                    selectedFile: event.target.files[0]
+                }
+            })
 
-        const file = event.target.files[0]
-        file.preview = URL.createObjectURL(file)
-        this.setState({
-            img: file.preview
-        })
+            const file = event.target.files[0]
+            file.preview = URL.createObjectURL(file)
+            this.setState({
+                img: file.preview
+            })
+        } else {
+            this.setState({
+                img: ''
+            })
+        }
+
     }
 
     handleUpdateCategory = async (id_category) => {
@@ -81,7 +88,7 @@ class ModalEditCategory extends Component {
     render() {
         let cat = this.props.categoryEdit
         console.log('Edit: ', this.props.categoryEdit, cat.name);
-        console.log('Ten va anh:', this.state.name, this.state.img, this.state.avatar)
+        console.log('Ten va anh:', this.state.img)
         return (
             <div>
                 <Modal isOpen={this.props.isOpenEdit} toggle={this.props.toggleEditCategory} className={this.props.className}
@@ -97,6 +104,8 @@ class ModalEditCategory extends Component {
                             <div className='input-container'>
                                 <label>Chọn ảnh danh mục:</label>
                                 <input type='file' onChange={(event) => this.fileSelectedHandle(event)}></input>
+                                {this.state.img ? <img src={this.state.img} height={100} width={100}></img> :
+                                    <img src={`http://localhost:8081/image/${cat.logo}`} height={100} width={100}></img>}
                             </div>
                         </div>
                     </ModalBody>
