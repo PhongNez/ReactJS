@@ -35,6 +35,7 @@ const rootReducer = (state = initState, action) => {
         case 'dangXuat':
             // localStorage.setItem('dangnhap', false)
             localStorage.removeItem('dangnhap')
+            localStorage.removeItem('user')
             return {
                 ...state,
                 isDangNhap: false

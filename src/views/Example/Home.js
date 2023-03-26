@@ -6,7 +6,7 @@ import global from '../../global/global'
 import Login from "../Login/Login";
 import { Link } from "react-router-dom";
 // import DangNhap from "./DangNhap";
-
+import './Home.scss'
 class Home extends React.Component {
 
     constructor(props) {
@@ -74,28 +74,9 @@ class Home extends React.Component {
         const { user } = this.state
         return (
             <>
-                {/* {this.state.dangnhap ? */}
-                <div style={{ textAlign: "center" }}>
-                    <div>
-                        <p>
-                            Hello world (Phong Nè)
-                        </p>
-                        <img src={logo} style={{ width: '400px', height: '400px', marginTop: '10px' }}></img>
-                    </div>
-                    <div>
-                        {
-                            listUser && listUser.length > 0 && listUser.map((item, index) => {
-                                return <div key={item.id}>
-                                    {index + 1} {item.name}
-                                    &nbsp; <span onClick={() => this.handleDelete(item)}> X </span>
-                                </div>
-
-                            })
-                        }
-                        <button style={{ marginRight: 10 }} onClick={() => this.handleCreate()}>Add user</button>
-                        <button onClick={() => this.logout()}>Đăng xuất</button></div>
+                <div className="home-backgound">
+                    <h1>Chào mừng Đã đăng nhập</h1>
                 </div>
-                {/* : <Redirect to='dangnhap1' /> } */}
 
 
             </>

@@ -26,7 +26,8 @@ class Order extends Component {
 
     async componentDidMount() {
         // this.getAllProductFromReact()
-        let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9hY2NvdW50IjoxLCJlbWFpbCI6ImFkbWluLmZvb2RvcmRlckBnbWFpbC5jb20iLCJwaG9uZSI6IjAzMjEiLCJuYW1lIjoiS2ltIMSQ4bqhaSBQaG9uZyIsImNyZWF0ZWRfdGltZSI6IjIwMjItMDktMjFUMDU6MTI6MjYuMDAwWiIsImFkZHJlc3MiOiI1MiIsImF2YXRhciI6IicnIiwic3RhdHVzIjowLCJyb2xlIjoxLCJpYXQiOjE2NzkzMTk4NDl9.S86CSsJnpLrkfCJtmIZ87aYOjPVSVUfNwIUj5Di8YQ8'
+        let token = localStorage.getItem('user')
+        // let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9hY2NvdW50IjoxLCJlbWFpbCI6ImFkbWluLmZvb2RvcmRlckBnbWFpbC5jb20iLCJwaG9uZSI6IjAzMjEiLCJuYW1lIjoiS2ltIMSQ4bqhaSBQaG9uZyIsImNyZWF0ZWRfdGltZSI6IjIwMjItMDktMjFUMDU6MTI6MjYuMDAwWiIsImFkZHJlc3MiOiI1MiIsImF2YXRhciI6IicnIiwic3RhdHVzIjowLCJyb2xlIjoxLCJpYXQiOjE2NzkzMTk4NDl9.S86CSsJnpLrkfCJtmIZ87aYOjPVSVUfNwIUj5Di8YQ8'
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
         let response = await axios.get(`http://localhost:8081/api/v1/admin/getorders`)
         console.log(response.data);
@@ -57,13 +58,6 @@ class Order extends Component {
         })
     }
 
-    getDate = (today) => {
-        today = new Date()
-        console.log('Today:', today);
-        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-
-        this.setState({ date });
-    };
 
     handleXacNhan = async (item) => {
         console.log(item.id_order);

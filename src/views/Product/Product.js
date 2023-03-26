@@ -6,6 +6,8 @@ import { FaTrash, FaPencilAlt } from 'react-icons/fa'
 import ModalProduct from './ModalProduct/ModalProduct';
 import ModalEditProduct from './ModalProduct/ModalEditProduct';
 import ModalDeleteProduct from './ModalProduct/ModalDeleteProduct';
+import './Product.scss'
+
 class Product extends Component {
     constructor(props) {
         super(props);

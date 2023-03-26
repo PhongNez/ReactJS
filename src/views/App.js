@@ -24,20 +24,24 @@ import DetailProduct from './DetailProduct/DetailProduct';
 import Order from './Order/Order';
 import OrderDetail from './OrderDetail/OrderDetail';
 import Account from './Account/Account';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <BrowserRouter>
-      <div className="App">
+class App extends Component {
 
-        <header className="App-header">
-          <Nav />
+  render() {
+    console.log('app isDangNhap: ', this.props);
+    return (
+      <BrowserRouter>
+        <div className="App">
+
+          {/* <header className="App-header"> */}
+          {this.props.reduxState.isDangNhap && <Nav />}
           {/* <img src={logo} className="App-logo" alt="logo" /> */}
           <Switch>
             <Route path="/" exact>
               <Home />
             </Route>
-
             <Route path="/list-todo">
               <ListToDo />
             </Route>
@@ -78,24 +82,39 @@ function App() {
               <Account />
             </Route>
           </Switch>
-        </header >
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        {/* Same as */}
-        <ToastContainer />
-      </div >
-    </BrowserRouter >
-  );
+          {/* </header > */}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          {/* Same as */}
+          <ToastContainer />
+        </div >
+      </BrowserRouter >
+    );
+  }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteRedux: (userDelete) => dispatch({ type: 'DELETE_USER', payload: userDelete }),
+    // createRedux: () => dispatch({ type: 'ADD_USER' })
+    logoutRedux: () => dispatch({ type: 'dangXuat' })
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    reduxState: state
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
