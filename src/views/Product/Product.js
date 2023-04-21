@@ -7,6 +7,8 @@ import ModalProduct from './ModalProduct/ModalProduct';
 import ModalEditProduct from './ModalProduct/ModalEditProduct';
 import ModalDeleteProduct from './ModalProduct/ModalDeleteProduct';
 import './Product.scss'
+import SearchProduct from '../SearchCategory/SearchProduct';
+import PhanTrangProduct from '../PhanTrang/PhanTrangProduct';
 
 class Product extends Component {
     constructor(props) {
@@ -22,7 +24,9 @@ class Product extends Component {
             isOpen: false,
             isOpenEdit: false,
             isOpenDelete: false,
-            productEdit: []
+            productEdit: [],
+            pageHienTai: '',
+            pageLength: ''
         }
     }
 
@@ -35,7 +39,8 @@ class Product extends Component {
         console.log(response.data);
         console.log('hello chi tiet nè');
         this.setState({
-            listProduct: response.data.listProduct
+            listProduct: response.data.listProduct,
+            pageLength: response.data.listProduct.length
         })
     }
 
@@ -74,6 +79,21 @@ class Product extends Component {
         this.props.history.push('/chiTiet')
     }
 
+    getSearchProduct = (listProduct) => {
+        this.setState({
+            listProduct: listProduct
+        })
+    }
+
+    handleListProduct = async (page) => {
+        console.log("Page: ", page);
+        let response = await axios.get(`http://localhost:8081/api/v1/testthu-product?page=${page}`)
+        this.setState({
+            listProduct: response.data.listProduct,
+            pageHienTai: page
+        })
+        console.log('heelo state: ', this.state.listProduct);
+    }
     render() {
         let listProduct = this.state.listProduct
         console.log('redux id_category: ', this.props.reduxState);
@@ -99,6 +119,7 @@ class Product extends Component {
                         getAllProductFromReact={() => this.getAllProductFromReact()}
                     />}
                 <div className='d-flex justify-content-center quanlidanhmuc'>Danh sách sản phẩm </div>
+                <SearchProduct getSearchProduct={(listProduct) => this.getSearchProduct(listProduct)} />
                 <button className='btn btn-primary btn-them-danh-muc' onClick={() => this.toggle()}><span className='them-danh-muc'>+ Thêm sản phẩm</span></button>
                 <div className='table-user'>
                     <table id="customers">
@@ -118,10 +139,10 @@ class Product extends Component {
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td><img src={`http://localhost:8081/image/${item.images}`} alt="" height={150} width={150} /></td>
+                                            <td><img src={`http://localhost:8081/image/${item.images}`} alt="" height={250} width={250} /></td>
 
                                             <td>{item.name_product}</td>
-                                            <td>{item.price}</td>
+                                            <td>{item.price} VNĐ</td>
                                             <td>{item.name}</td>
                                             <td>
                                                 <button className='btn-edit' onClick={() => this.handleEditProduct(item)}><FaPencilAlt /></button>
@@ -135,6 +156,11 @@ class Product extends Component {
                         </tbody>
                     </table>
                 </div>
+                <PhanTrangProduct
+                    handleListProduct={(page) => this.handleListProduct(page)}
+                    pageHienTai={this.state.pageHienTai}
+                    pageLength={this.state.pageLength}
+                />
             </div>
         )
     }

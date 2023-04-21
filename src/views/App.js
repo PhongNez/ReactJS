@@ -26,6 +26,8 @@ import OrderDetail from './OrderDetail/OrderDetail';
 import Account from './Account/Account';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import DoanhSo from './DoanhSo/DoanhSo';
+import Footer from './Footer/Footer';
 
 class App extends Component {
 
@@ -81,7 +83,11 @@ class App extends Component {
             <Route path="/account">
               <Account />
             </Route>
+            <Route path='/doanhso'>
+              <DoanhSo />
+            </Route>
           </Switch>
+
           {/* </header > */}
           <ToastContainer
             position="top-right"
@@ -95,6 +101,8 @@ class App extends Component {
             pauseOnHover
             theme="light"
           />
+          {this.props.reduxState.isDangNhap && <Footer />}
+
           {/* Same as */}
           <ToastContainer />
         </div >

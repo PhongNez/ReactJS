@@ -25,6 +25,10 @@ class Order extends Component {
     }
 
     async componentDidMount() {
+        this.getAllOrder()
+    }
+
+    getAllOrder = async () => {
         // this.getAllProductFromReact()
         let token = localStorage.getItem('user')
         // let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9hY2NvdW50IjoxLCJlbWFpbCI6ImFkbWluLmZvb2RvcmRlckBnbWFpbC5jb20iLCJwaG9uZSI6IjAzMjEiLCJuYW1lIjoiS2ltIMSQ4bqhaSBQaG9uZyIsImNyZWF0ZWRfdGltZSI6IjIwMjItMDktMjFUMDU6MTI6MjYuMDAwWiIsImFkZHJlc3MiOiI1MiIsImF2YXRhciI6IicnIiwic3RhdHVzIjowLCJyb2xlIjoxLCJpYXQiOjE2NzkzMTk4NDl9.S86CSsJnpLrkfCJtmIZ87aYOjPVSVUfNwIUj5Di8YQ8'
@@ -33,15 +37,6 @@ class Order extends Component {
         console.log(response.data);
         this.setState({
             listOrder: response.data.listOrder
-        })
-    }
-
-    getAllProductFromReact = async () => {
-        let response = await axios.get(`http://localhost:8081/api/v1//admin/product?id=${this.props.reduxState.id_category}`)
-        console.log(response.data);
-        console.log('hello chi tiet nè');
-        this.setState({
-            listProduct: response.data.listProduct
         })
     }
 
@@ -63,15 +58,18 @@ class Order extends Component {
         console.log(item.id_order);
         let response = await axios.post(`http://localhost:8081/api/v1//admin/xacnhandonhang/${item.id_order}`)
         console.log(response);
+        this.getAllOrder()
     }
 
     handleHoanThanh = async (item) => {
         console.log(item.id_order);
         let response = await axios.post(`http://localhost:8081/api/v1//admin/hoanthanhdonhang/${item.id_order}`)
         console.log(response);
+        this.getAllOrder()
     }
     handleHuyDon = async (item) => {
         let response = await axios.post(`http://localhost:8081/api/v1//admin/huydonhang/${item.id_order}`)
+        this.getAllOrder()
     }
 
     handleXemChiTietDatHang = (item) => {
@@ -81,7 +79,7 @@ class Order extends Component {
     }
     render() {
         let listOrder = this.state.listOrder
-        console.log('redux id_category: ', this.props.reduxState);
+        console.log('redux id_category: ', listOrder);
         return (
             <div className='main-container'>
 
@@ -102,7 +100,7 @@ class Order extends Component {
                                 //0 đã hoàn thành
                                 //1 chờ xác nhận
                                 //2 đang giao
-                                //3 Đã hủy =>xóa luôn đơn
+                                //3 Đã hủy           =>xóa luôn đơn
                                 listOrder && listOrder.map((item, index) => {
                                     return (
                                         <tr key={index}>
@@ -116,12 +114,12 @@ class Order extends Component {
                                                 {moment(item.order_time).format("DD-MM-YYYY ")}
                                             </td>
                                             {/* <td>{item.status && item.status == 0 && Đã hoàn thành}</td> */}
-                                            {item.status === 0 ? <> <td>Đã hoàn thành</td> <td></td> </> : (item.status === 1 ? <><td>Chờ xác nhận</td> <td>
+                                            {item.status === 0 ? <> <td style={{ color: 'gray' }}>Đã hoàn thành</td> <td></td> </> : (item.status === 1 ? <><td style={{ color: 'blue' }}>Chờ xác nhận</td> <td>
                                                 <button className='btnXacNhan btn-primary' onClick={() => this.handleXacNhan(item)}>Xác nhận</button>
                                                 <button className='btnHuyDon btn-primary' onClick={() => this.handleHuyDon(item)}>Hủy đơn</button>
-                                            </td></> : (item.status === 2 ? <><td>Đang giao</td> <td>
+                                            </td></> : (item.status === 2 ? <><td style={{ color: 'green' }}>Đang giao</td> <td>
                                                 <button className='btnHoanThanh btn-primary' onClick={() => this.handleHoanThanh(item)}>Hoàn thành</button></td></> :
-                                                <><td>Đã hủy</td><td></td></>
+                                                <><td style={{ color: 'red' }}>Đã hủy</td><td></td></>
                                             ))}
                                             {/* {item.status && item.status === 0 && <td>Đã hoàn thành</td>}
                                             {item.status && item.status === 1 && <td>Chờ xác nhận</td>}

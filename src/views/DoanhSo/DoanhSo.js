@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import axios from 'axios'
 import { withRouter } from 'react-router-dom';
 import { FaTrash, FaPencilAlt } from 'react-icons/fa'
-// import './Order.scss'
+
 const moment = require('moment');
-class OrderDetail extends Component {
+class DoanhSo extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,7 +14,7 @@ class OrderDetail extends Component {
             logo: '',
             isShowHidePassword: false,
             errMessage: '',
-            listOrderDetail: [],
+            listDoanhSo: [],
             id_category: '',
             arrProduct: [],
             isOpen: false,
@@ -36,78 +36,29 @@ class OrderDetail extends Component {
         //     listOrder: response.data.listOrder
         // })
         console.log(this.props.reduxState.id_order);
-        let response = await axios.get(`http://localhost:8081/api/v1/admin/detailorder/${this.props.reduxState.id_order}`)
+        let response = await axios.get(`http://localhost:8081/api/v1/admin/doanhso`)
         console.log('Detial:', response);
         this.setState({
-            listOrderDetail: response.data.listOrderDetail,
-            total: response.data.total
+            listDoanhSo: response.data.listDoanhSo
         })
     }
 
-    getAllProductFromReact = async () => {
-        let response = await axios.get(`http://localhost:8081/api/v1//admin/product?id=${this.props.reduxState.id_category}`)
-        console.log(response.data);
-        console.log('hello chi tiet nè');
-        this.setState({
-            listProduct: response.data.listProduct
-        })
-    }
-
-    handleEditProduct = (product) => {
-        this.setState({
-            isOpenEdit: true,
-            productEdit: product
-        })
-    }
-    handleDeleteProduct = (product) => {
-        this.setState({
-            isOpenDelete: true,
-            productDelete: product
-        })
-    }
-
-    getDate = (today) => {
-        today = new Date()
-        console.log('Today:', today);
-        let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-
-        this.setState({ date });
-    };
-
-    handleXacNhan = async (item) => {
-        console.log(item.id_order);
-        let response = await axios.post(`http://localhost:8081/api/v1//admin/xacnhandonhang/${item.id_order}`)
-        console.log(response);
-    }
-
-    handleHoanThanh = async (item) => {
-        console.log(item.id_order);
-        let response = await axios.post(`http://localhost:8081/api/v1//admin/hoanthanhdonhang/${item.id_order}`)
-        console.log(response);
-    }
-    handleHuyDon = async (item) => {
-        let response = await axios.post(`http://localhost:8081/api/v1//admin/huydonhang/${item.id_order}`)
-    }
-
-    handleXemChiTietDatHang = () => {
-
-    }
     render() {
-        let listOrderDetail = this.state.listOrderDetail
+        let listDoanhSo = this.state.listDoanhSo
         let total = this.state.total
-        console.log('redux id_category: ', listOrderDetail);
+        console.log('redux id_category: ', listDoanhSo);
         return (
             <div className='main-container'>
 
-                <div className='d-flex justify-content-center quanlidanhmuc'>Danh sách </div>
+                <div className='d-flex justify-content-center quanlidanhmuc'>Danh sách thống kê</div>
                 <div className='table-user'>
                     <table id="customers">
                         <tbody>
                             <tr>
                                 <th>STT</th>
-                                <th>Tên món</th>
-                                <th>Số lượng</th>
-                                <th>Đơn giá</th>
+
+                                <th>Ngày đặt</th>
+                                <th>Doanh số</th>
 
                             </tr>
                             {
@@ -115,21 +66,20 @@ class OrderDetail extends Component {
                                 //1 chờ xác nhận
                                 //2 đang giao
                                 //3 Đã hủy =>xóa luôn đơn
-                                listOrderDetail && listOrderDetail.map((item, index) => {
+                                listDoanhSo && listDoanhSo.map((item, index) => {
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
                                             {/* <td><img src={`http://localhost:8081/image/${item.images}`} alt="" height={150} width={150} /></td> */}
-                                            <td>{item.name}</td>
-                                            <td>{item.amount}</td>
+
+                                            <td>{moment(item.ngay).format("DD-MM-YYYY ")}</td>
                                             <td>
-                                                {item.price}
+                                                {item.total_doanhso}
                                             </td>
                                         </tr>
                                     )
                                 })
                             }
-                            <h2>Tổng: {total}</h2>
                         </tbody>
                     </table>
                 </div>
@@ -150,4 +100,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(OrderDetail));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(DoanhSo));

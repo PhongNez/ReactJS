@@ -7,6 +7,9 @@ import ModalCategory from './ModalCategory/ModalCategory';
 import { FaTrash, FaPencilAlt } from 'react-icons/fa'
 import ModalEditCategory from './ModalCategory/ModalEditCategory';
 import ModalDeleteCategory from './ModalCategory/ModalDeleteCategory';
+import PhanTrang from '../PhanTrang/PhanTrangCategory';
+import SearchCategory from '../SearchCategory/SearchCategory';
+
 class Category extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +23,9 @@ class Category extends Component {
             isOpenEdit: false,
             isOpenDelete: '',
             categoryEdit: '',
-            categoryDelete: ''
+            categoryDelete: '',
+            pageHienTai: '',
+            pageLength: '',
         }
     }
 
@@ -34,9 +39,11 @@ class Category extends Component {
     }
 
     getAllCategoryFromReact = async () => {
-        let response = await axios.get('http://localhost:8081/api/v1/category?id=ALL')
+        // let response = await axios.get('http://localhost:8081/api/v1/category?id=ALL')
+        let response = await axios.get('http://localhost:8081/api/v1/testthu')
         this.setState({
-            listCategory: response.data.listCategory
+            listCategory: response.data.listCategory,
+            pageLength: response.data.listCategory.length
         })
         console.log('heelo state: ', this.state.listCategory);
     }
@@ -77,11 +84,27 @@ class Category extends Component {
             categoryDelete: category
         })
     }
+    handleListCategory = async (page) => {
+        console.log("Page: ", page);
+        let response = await axios.get(`http://localhost:8081/api/v1/testthu?page=${page}`)
+        this.setState({
+            listCategory: response.data.listCategory,
+            pageHienTai: page
+        })
+        console.log('heelo state: ', this.state.listCategory);
+    }
+
+    getSearchCategory = (listCategory) => {
+        this.setState({
+            listCategory: listCategory
+        })
+    }
     render() {
         let listCategory = this.state.listCategory
         console.log("Danh muc: ", this.state.categoryEdit);
         return (
             <div className='main-container-category'>
+
                 <ModalCategory
                     isOpen={this.state.isOpen}
                     toggleCuaCha={() => this.toggle()}
@@ -101,7 +124,11 @@ class Category extends Component {
                         categoryDelete={this.state.categoryDelete}
                         getAllCategoryFromReact={() => this.getAllCategoryFromReact()}
                     />}
+
                 <div className='d-flex justify-content-center quanlidanhmuc'>Danh mục sản phẩm </div>
+                <SearchCategory getSearchCategory={(listCategory) => this.getSearchCategory(listCategory)}
+                    getAllCategoryFromReact={() => this.state.getAllCategoryFromReact}
+                />
                 <button className='btn btn-primary btn-them-danh-muc' onClick={() => this.toggle()}><span className='them-danh-muc'>+ Thêm danh mục</span></button>
                 <div className='table-user'>
                     <table id="customers">
@@ -119,7 +146,7 @@ class Category extends Component {
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td><img src={`http://localhost:8081/image/${item.logo}`} alt="" height={150} width={150} /></td>
+                                            <td><img src={`http://localhost:8081/image/${item.logo}`} alt="" height={250} width={250} /></td>
 
                                             <td>{item.name}</td>
 
@@ -146,6 +173,10 @@ class Category extends Component {
                             )
                         })
                     } */}
+                    <PhanTrang handleListCategory={(page) => this.handleListCategory(page)}
+                        pageHienTai={this.state.pageHienTai}
+                        pageLength={this.state.pageLength}
+                    />
                 </div>
             </div>
         )

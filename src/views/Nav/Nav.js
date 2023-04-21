@@ -38,6 +38,7 @@ class Nav extends React.Component {
                 <NavLink to="/category">Quản lí danh mục</NavLink>
                 <NavLink to="/product">Quản lí sản phẩm</NavLink>
                 <NavLink to="/orders">Quản lí đơn đặt hàng</NavLink>
+                <NavLink to="/doanhso">Doanh Số</NavLink>
                 {/* <NavLink to="/chiTiet">Chi tiết sản phẩm</NavLink> */}
                 <div><button className='logout' onClick={() => this.logout()}><MdLogout /></button></div>
             </div>
