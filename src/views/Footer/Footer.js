@@ -1,11 +1,11 @@
 import React from "react"
 import './Footer.scss'
 
-const Footer = () => <footer className="page-footer font-small blue pt-4 footer-tu-css">
+const Footer = () => <footer className="page-footer footer font-small blue pt-4 mt-5 footer-tu-css">
     <div className="container-fluid text-center text-md-left">
         <div className="row">
             <div className="col-md-6 mt-md-0 mt-3">
-                <h5 className="text-uppercase">Shop bán cà phê pha phiên số 1 Việt Nam</h5>
+                <h5 className="text-uppercase" style={{ fontSize: 20 }}>Shop bán cà phê pha phiên số 1 Việt Nam</h5>
                 {/* <p>Here you can use rows and columns to organize your footer content.</p> */}
                 <img src={require('../../assets/images/logo-coffe-footer.jpg')} height={200} width={200} />
             </div>
@@ -33,11 +33,6 @@ const Footer = () => <footer className="page-footer font-small blue pt-4 footer-
             </div>
         </div>
     </div>
-
-    <div className="footer-copyright text-center py-3">© 2020 Copyright:
-        <a href="https://mdbootstrap.com/"> MDBootstrap.com</a>
-    </div>
-
 </footer>
 
 export default Footer

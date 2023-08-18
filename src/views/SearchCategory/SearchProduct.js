@@ -41,6 +41,17 @@ class SearchProduct extends Component {
         this.props.getSearchProduct(response.data.message)
     }
 
+    enterSearchProduct = async (e) => {
+        if (e.key === 'Enter') {
+            this.setState({
+                textTimKiem: this.state.name
+            })
+            let response = await axios.post(`http://localhost:8081/api/v1/search`, { name: this.state.name })
+            console.log(response.data.message);
+            this.props.getSearchProduct(response.data.message)
+        }
+    }
+
     handleOnChangeInput = (event) => {
         console.log("Hello: ", event.target.value);
 
@@ -65,7 +76,10 @@ class SearchProduct extends Component {
                     {this.state.textTimKiem && <h4>Bạn vừa tìm kiếm sản phẩm: {this.state.textTimKiem}</h4>}
                     <div className="main-search">
 
-                        <input type="search" id="form1" className="form-control" placeholder='Tìm kiếm sản phẩm ...' onChange={(event) => this.handleOnChangeName(event)} value={this.state.name} />
+                        <input type="search" id="form1" className="form-control" placeholder='Tìm kiếm sản phẩm ...' onChange={(event) => this.handleOnChangeName(event)}
+                            value={this.state.name}
+                            onKeyDown={(e) => this.enterSearchProduct(e)}
+                        />
                         <button type="button" className="btn btn-primary" onClick={() => this.searchProduct()}>
                             <FaSearch />
                         </button>

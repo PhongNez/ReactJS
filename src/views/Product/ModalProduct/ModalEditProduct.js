@@ -183,7 +183,6 @@ class ModalEditProduct extends Component {
                                             )
                                         })
                                     }
-                                    {/* <input onChange={(event) => this.handleOnChangeInput(event, 'id_category')} value={item.id_category} hidden></input> */}
                                 </select>
                             </div>
                         </div>

@@ -146,14 +146,14 @@ class Category extends Component {
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td><img src={`http://localhost:8081/image/${item.logo}`} alt="" height={250} width={250} /></td>
+                                            <td><img src={`http://localhost:8081/image/${item.logo}`} alt="" height={150} width={150} style={{ borderRadius: 200 }} /></td>
 
                                             <td>{item.name}</td>
 
 
                                             <td>
-                                                <button className='btn-edit' onClick={() => this.handleEditCategory(item)}><FaPencilAlt /></button>
-                                                <button className='btn-delete' onClick={() => this.handleDeleteCategory(item)}><FaTrash /></button>
+                                                <button className='btn-edit' style={{ fontSize: 30, color: '#0d6efd' }} onClick={() => this.handleEditCategory(item)}><FaPencilAlt /></button>
+                                                <button className='btn-delete' style={{ fontSize: 30, color: 'red' }} onClick={() => this.handleDeleteCategory(item)}><FaTrash /></button>
                                             </td>
 
                                         </tr>

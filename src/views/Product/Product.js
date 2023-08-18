@@ -139,7 +139,7 @@ class Product extends Component {
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td><img src={`http://localhost:8081/image/${item.images}`} alt="" height={250} width={250} /></td>
+                                            <td><img src={`http://localhost:8081/image/${item.images}`} alt="" height={150} width={150} style={{ borderRadius: 200 }} /></td>
 
                                             <td>{item.name_product}</td>
                                             <td>{item.price} VNĐ</td>

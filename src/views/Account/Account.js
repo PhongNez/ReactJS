@@ -114,7 +114,7 @@ class Account extends Component {
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td><img src={`http://localhost:8081/image/${item.avatar}`} alt="" height={250} width={250} /></td>
+                                            <td><img src={`http://localhost:8081/image/${item.avatar}`} alt="" height={150} width={150} style={{ borderRadius: 200 }} /></td>
                                             <td>{item.name}</td>
                                             <td>{item.email}</td>
 

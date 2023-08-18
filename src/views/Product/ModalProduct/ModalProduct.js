@@ -14,10 +14,14 @@ class ModalProduct extends Component {
             detail: '',
             price: '',
             images: '',
+            id_tax: '',
+            id_pricelist: '',
             avatar: {
                 selectedFile: null,
             },
-            listCategory: []
+            listCategory: [],
+            listTax: [],
+            listPrice: []
         }
     }
 
@@ -27,8 +31,23 @@ class ModalProduct extends Component {
             listCategory: response.data.listCategory
         })
         console.log('heelo state: ', this.state.listCategory);
-    }
 
+        let res = await axios.get('http://localhost:8081/api/v1/tax/get')
+        this.setState({
+            listTax: res.data.listTax
+        })
+        console.log('heelo list tax: ', this.state.listTax);
+
+        let resPrice = await axios.get('http://localhost:8081/api/v1/price/get')
+        this.setState({
+            listPrice: resPrice.data.listPrice
+        })
+        console.log('heelo list tax: ', this.state.listPrice);
+    }
+    // async componentDidMount() {
+
+
+    // }
     handleOnChangeInput = (event, id) => {
         // this.setState({
         //     item: event.target.value
@@ -75,17 +94,19 @@ class ModalProduct extends Component {
     }
 
     handleAddNewCategory = async () => {
-        let check = this.checkValidateInput();
+        // let check = this.checkValidateInput();
+        let check = true
         if (check) {
-            const { name, detail, price, id_category } = this.state
+            const { name, detail, price, id_category, id_tax, id_pricelist } = this.state
             const { selectedFile } = this.state.avatar
 
             const fd = new FormData()
             fd.append('name', name)//Tên sản phẩm
             fd.append('detail', detail)//Chi tiết
-            fd.append('price', price)//Giá
+            fd.append('id_pricelist', id_pricelist)//Giá
             fd.append('id_category', id_category)//Id danh mục
             fd.append('images', selectedFile)//ảnh
+            fd.append('id_tax', id_tax)
             console.log('selectedFile.name: ', selectedFile.name);
             // console.log(fd.get('logo'));
             // console.log(fd);
@@ -94,16 +115,18 @@ class ModalProduct extends Component {
             // let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9hY2NvdW50IjoxLCJlbWFpbCI6ImFkbWluLmZvb2RvcmRlckBnbWFpbC5jb20iLCJwaG9uZSI6IjAzMjEiLCJuYW1lIjoiS2ltIMSQ4bqhaSBQaG9uZyIsImNyZWF0ZWRfdGltZSI6IjIwMjItMDktMjFUMDU6MTI6MjYuMDAwWiIsImFkZHJlc3MiOiI1MiIsImF2YXRhciI6IicnIiwic3RhdHVzIjowLCJyb2xlIjoxLCJpYXQiOjE2NzkzMTk4NDl9.S86CSsJnpLrkfCJtmIZ87aYOjPVSVUfNwIUj5Di8YQ8'
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
             let response = await axios.post('http://localhost:8081/api/v1/admin/createNewProduct', fd)
-            this.setState({
-                name: '',
-                id_category: '',
-                detail: '',
-                price: '',
-                images: '',
-                avatar: {
-                    selectedFile: null,
-                },
-            })
+            // if(response && response.errCode)
+            console.log(response);
+            // this.setState({
+            //     name: '',
+            //     id_category: '',
+            //     detail: '',
+            //     price: '',
+            //     images: '',
+            //     avatar: {
+            //         selectedFile: null,
+            //     },
+            // })
             this.props.toggleCuaCha()
             alert(response.data.message)
             this.props.getAllProductFromReact()
@@ -112,7 +135,9 @@ class ModalProduct extends Component {
     }
 
     render() {
-        let { listCategory } = this.state
+        let { listCategory, listTax, listPrice } = this.state
+        console.log('List tax: ', listTax);
+        console.log('List price: ', listPrice);
         console.log('Ten va anh:', this.state.name, this.state.img, this.state.avatar)
         return (
             <div>
@@ -135,14 +160,27 @@ class ModalProduct extends Component {
                                 <label>Nhập chi tiết sản phẩm:</label>
                                 <input type='text' onChange={(event) => this.handleOnChangeInput(event, 'detail')} value={this.state.detail}></input>
                             </div>
-                            <div className='input-container'>
+                            {/* <div className='input-container'>
                                 <label>Nhập giá của sản phẩm:</label>
                                 <input type='text' onChange={(event) => this.handleOnChangeInput(event, 'price')} value={this.state.price}></input>
-                            </div>
-                            {/* <div className='input-container'>
-                                <label>Chọn danh mục cần thêm:</label>
-                                <input type='' onChange={(event) => this.handleOnChangeInput(event, 'price')}></input>
                             </div> */}
+                            <div className='input-container'>
+                                <label>Chọn giá cần thêm:</label>
+                                <select className='select-category' onChange={(event) => this.handleOnChangeInput(event, 'id_pricelist')} value={this.state.id_pricelist}>
+                                    < option ></option>
+                                    {
+
+                                        listPrice && listPrice.map((item, index) => {
+                                            return (<>
+
+                                                < option key={item.id} value={item.id_pricelist}>{item.price}</option>
+                                            </>
+                                            )
+                                        })
+                                    }
+                                    {/* <input onChange={(event) => this.handleOnChangeInput(event, 'id_category')} value={item.id_category} hidden></input> */}
+                                </select>
+                            </div>
                             <div className='input-container'>
                                 <label>Chọn danh mục cần thêm:</label>
                                 <select className='select-category' onChange={(event) => this.handleOnChangeInput(event, 'id_category')} value={this.state.id_category}>
@@ -153,6 +191,23 @@ class ModalProduct extends Component {
                                             return (<>
 
                                                 < option key={item.id} value={item.id_category}>{item.name}</option>
+                                            </>
+                                            )
+                                        })
+                                    }
+                                    {/* <input onChange={(event) => this.handleOnChangeInput(event, 'id_category')} value={item.id_category} hidden></input> */}
+                                </select>
+                            </div>
+                            <div className='input-container'>
+                                <label>Chọn thuế cần thêm:</label>
+                                <select className='select-category' onChange={(event) => this.handleOnChangeInput(event, 'id_tax')} value={this.state.id_tax}>
+                                    < option ></option>
+                                    {
+
+                                        listTax && listTax.map((item, index) => {
+                                            return (<>
+
+                                                < option key={item.id} value={item.id_tax}>{item.tax_name}</option>
                                             </>
                                             )
                                         })

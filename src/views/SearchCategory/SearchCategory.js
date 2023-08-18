@@ -32,12 +32,25 @@ class SearchCategory extends Component {
         this.props.getSearchCategory(response.data.message)
     }
 
+    enterSearchCategory = async (e) => {
+        if (e.key === 'Enter') {
+            console.log('Phong');
+            let response = await axios.post(`http://localhost:8081/api/v1/search-category`, { name: this.state.name })
+            console.log(response.data.message);
+            this.props.getSearchCategory(response.data.message)
+        }
+
+    }
+
     render() {
         return (
             <>
                 <div className='contain-main-search'>
                     <div className="main-search">
-                        <input type="search" id="form1" className="form-control" placeholder='Tìm kiếm danh mục ...' onChange={(event) => this.handleOnChangeName(event)} value={this.state.name} />
+                        <input type="search" id="form1" className="form-control" placeholder='Tìm kiếm danh mục ...' onChange={(event) => this.handleOnChangeName(event)}
+                            value={this.state.name}
+                            onKeyDown={(e) => this.enterSearchCategory(e)}
+                        />
                         <button type="button" className="btn btn-primary" onClick={() => this.searchCategory()}>
                             <FaSearch />
                         </button>
